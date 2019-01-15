@@ -17,11 +17,12 @@ import (
 )
 
 func main() {
-	fmt.Println("GoPicker by GTG (C) 2019 ver. 0.3")
+	fmt.Println("GoPicker by GTG (C) 2019 ver. 0.3.1")
 
 	var fFile = flag.String("file", "", "Имя файла или маска для обработки. Пример: filename.dat или *.xml")
 	var fDst = flag.String("dst", ".", "Корневая директория для дерева dst\\YYYY\\MM\\DD. Пример: \"C:\\temp\\dst\"")
 	var fSilent = flag.Bool("silent", false, "Вкл./выкл. сообщения в процессе обработки.")
+	var fFindOnly = flag.Bool("findOnly", false, "Если true - перемещение откл., работает только фитрация и копирование.")
 	var fFindPhrase = flag.String("findPhrase", "", "Фраза для поиска в файле. Ипользуется вместе с finddir")
 	var fFindContains = flag.String("findNameContains", "", "Если finddir не пусто - то задает подстроку в имени файла для фильтра с finddir. Пример: ED211")
 	var fFindDir = flag.String("findDir", "", "Если не пусто - то будет создан подкаталог finddir, в который копируются файлы по маске findnamecontains содержащие строку phrase")
@@ -30,9 +31,9 @@ func main() {
 
 	args := os.Args
 	if len(args) == 1 || len(*fFile) == 0 {
-		fmt.Println("USAGE: tosser.exe --help or -h for help")
-		fmt.Println("       tosser.exe -file=\"c:\\temp\\filename.ext\"")
-		fmt.Println("       tosser.exe -file=\"*Jan*.xml\"")
+		fmt.Println("USAGE: GoPicker.exe --help or -h for help")
+		fmt.Println("       GoPicker.exe -file=\"c:\\temp\\filename.ext\"")
+		fmt.Println("       GoPicker.exe -file=\"*Jan*.xml\"")
 		os.Exit(1)
 	}
 
@@ -103,6 +104,9 @@ func main() {
 
 		//Восстановим значение проверок для фильтров
 		check = false
+		if *fFindOnly {
+			continue
+		}
 
 		if !*fSilent {
 			fmt.Printf("Moving file [%s] to [%s]...\n", k, folderPath)
