@@ -1,4 +1,4 @@
-﻿package main
+package main
 
 import (
 	"bufio"
@@ -210,7 +210,6 @@ func FindAllDirs(rootdir string, subDirToSkip string) (files []string, err error
 
 	return
 }
-
 
 // PhraseIsExist - Проверяет наличие фразы в файле
 func PhraseIsExist(str, filepath string) (isExist bool, err error) {
