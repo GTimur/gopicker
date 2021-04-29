@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	fmt.Println("GoPicker by GTG (C) 2019 ver. 0.3.1")
+	fmt.Println("GoPicker by GTG (C) 2021 ver. 0.3.2")
 
 	var fFile = flag.String("file", "", "Имя файла или маска для обработки. Пример: filename.dat или *.xml")
 	var fDst = flag.String("dst", ".", "Корневая директория для дерева dst\\YYYY\\MM\\DD. Пример: \"C:\\temp\\dst\"")
@@ -31,9 +31,9 @@ func main() {
 
 	args := os.Args
 	if len(args) == 1 || len(*fFile) == 0 {
-		fmt.Println("USAGE: GoPicker.exe --help or -h for help")
-		fmt.Println("       GoPicker.exe -file=\"c:\\temp\\filename.ext\"")
-		fmt.Println("       GoPicker.exe -file=\"*Jan*.xml\"")
+		fmt.Println("USAGE: gopicker.exe --help or -h for help")
+		fmt.Println("       gopicker.exe -file=\"c:\\temp\\filename.ext\"")
+		fmt.Println("       gopicker.exe -file=\"*Jan*2021*.xml\"")
 		os.Exit(1)
 	}
 
@@ -83,9 +83,11 @@ func main() {
 			}
 		}
 
-		if err := os.MkdirAll(folderPath, 0777); err != nil {
-			fmt.Printf("Mkdir error: %v", err)
-			break
+		if check {
+			if err := os.MkdirAll(folderPath, 0777); err != nil {
+				fmt.Printf("Mkdir error: %v", err)
+				break
+			}
 		}
 
 		// Если FindDir FindPhrase fFindContains фильтр включен - делаем копию файла
