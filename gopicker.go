@@ -17,12 +17,12 @@ import (
 )
 
 func main() {
-	fmt.Println("GoPicker by GTG (C) 2021 ver. 0.3.2")
+	fmt.Println("GoPicker by GTG (C) 2021 ver. 0.3.3")
 
 	var fFile = flag.String("file", "", "Имя файла или маска для обработки. Пример: filename.dat или *.xml")
 	var fDst = flag.String("dst", ".", "Корневая директория для дерева dst\\YYYY\\MM\\DD. Пример: \"C:\\temp\\dst\"")
 	var fSilent = flag.Bool("silent", false, "Вкл./выкл. сообщения в процессе обработки.")
-	var fFindOnly = flag.Bool("findOnly", false, "Если true - перемещение откл., работает только фитрация и копирование.")
+	var fFindOnly = flag.Bool("findOnly", false, "Если true - перемещение откл., работает только фильтрация и копирование.")
 	var fFindPhrase = flag.String("findPhrase", "", "Фраза для поиска в файле. Ипользуется вместе с finddir")
 	var fFindContains = flag.String("findNameContains", "", "Если finddir не пусто - то задает подстроку в имени файла для фильтра с finddir. Пример: ED211")
 	var fFindDir = flag.String("findDir", "", "Если не пусто - то будет создан подкаталог finddir, в который копируются файлы по маске findnamecontains содержащие строку phrase")
@@ -83,7 +83,7 @@ func main() {
 			}
 		}
 
-		if check {
+		if check || !*fFindOnly {
 			if err := os.MkdirAll(folderPath, 0777); err != nil {
 				fmt.Printf("Mkdir error: %v", err)
 				break
@@ -91,7 +91,7 @@ func main() {
 		}
 
 		// Если FindDir FindPhrase fFindContains фильтр включен - делаем копию файла
-		if check {
+		if check && *fFindOnly {
 			if !*fSilent {
 				fmt.Printf("Copying file [%s] to [%s]...\n", k, folderPath)
 			}
